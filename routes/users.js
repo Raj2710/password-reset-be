@@ -123,7 +123,7 @@ router.post("/login",async(req,res)=>{
           }
         })
         const sendConfirmationEmail = await transport.sendMail({//sending mail with activation link
-          from:"nagarajansai2727@gmail.com",
+          from:sender,
           to:user.email,
           subject:"Account Activation",
           html:`<h2>Email Confirmation</h2>
@@ -175,9 +175,8 @@ router.post('/reset-password',async(req,res)=>{
         }
       })
       const sendResetLink = await transport.sendMail({//sending mail with pwd reset link
-        from:"nagarajansai2727@gmail.com",
+        from:sender,
         to:user.email,
-        cc:"nagarajansai2727@gmail.com",
         subject:"Password Reset Link",
         html:`<h2>Hello ${user.firstname}</h2>
         <p>We've recieved a request to reset the password for your account associated with your email.
