@@ -42,7 +42,7 @@ router.post("/register",async(req,res)=>{
         html:`<h1>Email Confirmation</h1>
         <h2>Hello ${req.body.firstname}</h2>
         <p>You are one step away to shorten your lengthy url. Please confirm your email by clicking on the following link</p>
-        <a href=http://localhost:4000/users/confirm/${token}> Click here</a>
+        <a href=https://password-reset-flow.herokuapp.com/users/confirm/${token}> Click here</a>
         <p>The link expires 15 minutes from now</p>
         </div>`
       })
@@ -129,7 +129,7 @@ router.post("/login",async(req,res)=>{
           html:`<h2>Email Confirmation</h2>
           <h2>Hello ${user.firstName}</h2>
           <p>You are one step away to shorten your lengthy url. Please confirm your email by clicking on the following link</p>
-          <a href=http://localhost:4000/users/confirm/${token}> Click here</a>
+          <a href=https://password-reset-flow.herokuapp.com/users/confirm/${token}> Click here</a>
           <p>The link is valid only for 15 minutes</p>
           </div>`
         })
