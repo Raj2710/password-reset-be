@@ -1,10 +1,13 @@
 var express = require('express');
 const nodemailer = require("nodemailer");
+const {google} = require("googleapis");
 const{dbUrl,mongodb,MongoClient}=require("../dbConfig");
 var router = express.Router();
 const{hashing, createJWT,authenticate,hashCompare,createJWTLogin}=require("../library/auth");
-const{sender,pwd}=require("../library/config");
+const{sender,pwd,CLIENT_ID,CLIENT_SECRET,REDIRECT_URI,REFRESH_TOKEN}=require("../library/config");
 const path = require("path");
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN});
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('Invalid Request');
@@ -28,15 +31,20 @@ router.post("/register",async(req,res)=>{
         firstname:req.body.firstname,
         email:req.body.email
       })
+      const accessToken = await oAuth2Client.getAccessToken();
       const transport = await nodemailer.createTransport({//create transport
-        service:"Gmail",//service provider
+        service:"gmail",//service provider
         auth:{
-          user:sender,
-          pass:pwd
-        }
+          type:"OAuth2",
+          user:"nagarajansai2727@gmail.com",
+          clientId:CLIENT_ID,
+          clientSecret:CLIENT_SECRET,
+          refreshToken:REFRESH_TOKEN,
+          accessToken:accessToken
+      }
       })
       const sendConfirmationEmail = await transport.sendMail({//sending mail with activation link
-        from:sender,
+        from:"URL Shortner <nagarajansai2727@gmail.com>",
         to:req.body.email,
         subject:"Account Activation",
         html:`<h1>Email Confirmation</h1>
@@ -115,24 +123,29 @@ router.post("/login",async(req,res)=>{
           firstname:user.firstname,
           email:user.email
         })
+        const accessToken = await oAuth2Client.getAccessToken();
         const transport = await nodemailer.createTransport({//create transport
-          service:"Gmail",//service provider
-          auth:{
-            user:sender,
-            pass:pwd
-          }
-        })
-        const sendConfirmationEmail = await transport.sendMail({//sending mail with activation link
-          from:sender,
-          to:user.email,
-          subject:"Account Activation",
-          html:`<h2>Email Confirmation</h2>
-          <h2>Hello ${user.firstName}</h2>
-          <p>You are one step away to shorten your lengthy url. Please confirm your email by clicking on the following link</p>
-          <a href=https://password-reset-flow.herokuapp.com/users/confirm/${token}> Click here</a>
-          <p>The link is valid only for 15 minutes</p>
-          </div>`
-        })
+        service:"gmail",//service provider
+        auth:{
+          type:"OAuth2",
+          user:"nagarajansai2727@gmail.com",
+          clientId:CLIENT_ID,
+          clientSecret:CLIENT_SECRET,
+          refreshToken:REFRESH_TOKEN,
+          accessToken:accessToken
+      }
+      })
+      const sendConfirmationEmail = await transport.sendMail({//sending mail with activation link
+        from:"URL Shortner <nagarajansai2727@gmail.com>",
+        to:user.email,
+        subject:"Account Activation",
+        html:`<h1>Email Confirmation</h1>
+        <h2>Hello ${user.firstname}</h2>
+        <p>You are one step away to shorten your lengthy url. Please confirm your email by clicking on the following link</p>
+        <a href=https://password-reset-flow.herokuapp.com/users/confirm/${token}> Click here</a>
+        <p>The link expires 15 minutes from now</p>
+        </div>`
+      })
         res.status(401).json({//if account activation is pending
           message:"Account activation required",
           instruction:"Check your mail inbox for activation link"
@@ -167,15 +180,20 @@ router.post('/reset-password',async(req,res)=>{
         email:user.email
       })
       let userUpdate=await db.collection("users").updateOne({email:user.email},{$set:{token:token}});
-      const transport = await nodemailer.createTransport({//create transport
-        service:"Gmail",//service provider
+        const accessToken = await oAuth2Client.getAccessToken();
+        const transport = await nodemailer.createTransport({//create transport
+        service:"gmail",//service provider
         auth:{
-          user:sender,
-          pass:pwd
-        }
+          type:"OAuth2",
+          user:"nagarajansai2727@gmail.com",
+          clientId:CLIENT_ID,
+          clientSecret:CLIENT_SECRET,
+          refreshToken:REFRESH_TOKEN,
+          accessToken:accessToken
+      }
       })
       const sendResetLink = await transport.sendMail({//sending mail with pwd reset link
-        from:sender,
+        from:"URL Shortner <nagarajansai2727@gmail.com>",
         to:user.email,
         subject:"Password Reset Link",
         html:`<h2>Hello ${user.firstname}</h2>
