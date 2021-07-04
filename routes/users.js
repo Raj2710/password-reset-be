@@ -81,7 +81,7 @@ router.get("/confirm/:token",async(req,res)=>{//account activation from the link
       res.sendFile(path.join(__dirname, '../library/confirm.html'))//rendering a html file to confirm activation
     }
     else{
-      res.sendStatus(400).json({
+      resizeBy.json({
         message:"Link Invalid"
       })
     }
@@ -113,7 +113,7 @@ router.post("/login",async(req,res)=>{
               message:"Login Successfull"
             })
         }else{
-            res.status(400).json({//if password is wrong
+            res.json({//if password is wrong
             message:"Invalid Password"
           })
         }
@@ -146,14 +146,14 @@ router.post("/login",async(req,res)=>{
         <p>The link expires 15 minutes from now</p>
         </div>`
       })
-        res.status(401).json({//if account activation is pending
+        res.json({//if account activation is pending
           message:"Account activation required",
           instruction:"Check your mail inbox for activation link"
         })
       }
     }
     else{
-        res.status(404).json({//if user does not exist
+        res.json({//if user does not exist
           message:"No User Available"
         })
     }
@@ -208,7 +208,7 @@ router.post('/reset-password',async(req,res)=>{
       })
     }
     else{
-      res.status(404).json({
+      res.json({
         message:"Invalid User"
       })
     }
@@ -238,7 +238,7 @@ router.post('/update-password',async(req,res)=>{
           })
         }
       else{
-        res.status(400).json({
+        res.json({
           message:"Link Invalid"
         })
       }
