@@ -38,11 +38,11 @@ export default function Login(props){
             <h1>Log in and start sharing</h1>
             <h4>Don't have an accout? <Link to="/user/register"  className="link">Sign up</Link></h4>
             <div className="form-wrapper">
-                <label for="username">Email address or username</label><br/>
+                <label>Email address or username</label><br/>
                 <input type="text" onChange={(e)=>setEmail(e.target.value)}></input><br/>
                 <div className="pass-wrapper">
-                    <label for="password" className="pass">Password </label>
-                    <button className="showhide" onClick={()=>setShow(!show)}><i class="fas fa-eye"></i> Show</button>
+                    <label className="pass">Password </label>
+                    <button className="showhide" onClick={()=>setShow(!show)}><i className="fas fa-eye"></i> Show</button>
                 </div><br/>
                 <input type={show?"password":"text"} onChange={(e)=>setPwd(e.target.value)}></input><br/>
                 <Link to="/user/forgot-password" className="link">Forgot your password?</Link><br/>
