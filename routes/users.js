@@ -199,7 +199,7 @@ router.post('/reset-password',async(req,res)=>{
         html:`<h2>Hello ${user.firstname}</h2>
         <p>We've recieved a request to reset the password for your account associated with your email.
         You can reset your password by clicking the link below</p>
-        <a href=http://forntend-link/${token}> Reset Password</a>
+        <a href=https://password-resetflow.herokuapp.com/user/update-password/${token}> Reset Password</a>
         <p><b>Note:</b>The link expires 15 minutes from now</p>
         </div>`
       })
