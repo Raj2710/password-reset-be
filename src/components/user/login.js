@@ -10,7 +10,8 @@ export default function Login(props){
     let [ins,setIns]=useState("");
     let handleEvent = async()=>{
         setRes("");
-        await axios.post("https://password-reset-flow.herokuapp.com/users/login",{
+        if(email && pwd){
+            await axios.post("https://password-reset-flow.herokuapp.com/users/login",{
             email:email,
             password:pwd
         })
@@ -32,19 +33,23 @@ export default function Login(props){
         }).catch((error)=>{
             console.log(error);
         })
+        }
+        else{
+            setRes("Fields can not be empty")
+        }
     }
     return <>
         <div className="login-wrapper">
             <h1>Log in and start sharing</h1>
-            <h4>Don't have an accout? <Link to="/user/register"  className="link">Sign up</Link></h4>
+            <h4>Don't have an account? <Link to="/user/register"  className="link">Sign up</Link></h4>
             <div className="form-wrapper">
                 <label>Email address or username</label><br/>
-                <input type="text" onChange={(e)=>setEmail(e.target.value)}></input><br/>
+                <input type="email" onChange={(e)=>setEmail(e.target.value)} required={true}></input><br/>
                 <div className="pass-wrapper">
                     <label className="pass">Password </label>
                     <button className="showhide" onClick={()=>setShow(!show)}><i className="fas fa-eye"></i> Show</button>
                 </div><br/>
-                <input type={show?"password":"text"} onChange={(e)=>setPwd(e.target.value)}></input><br/>
+                <input type={show?"password":"text"} onChange={(e)=>setPwd(e.target.value)} required={true}></input><br/>
                 <Link to="/user/forgot-password" className="link">Forgot your password?</Link><br/>
                 <button className="login" onClick={handleEvent}>Login</button>
                 <div style={{color:"green"}}>{res} {ins}</div>

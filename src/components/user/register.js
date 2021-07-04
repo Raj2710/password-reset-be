@@ -2,6 +2,7 @@ import "../../styles/login.css"
 import {Link} from "react-router-dom";
 import { useState} from "react";
 import axios from "axios";
+import validator from 'validator';
 export default function Register(){
     let [user,setUser]=useState("");
     let [email,setEmail]=useState("");
@@ -10,7 +11,9 @@ export default function Register(){
     let [res,setRes]=useState("");
     let [ins,setIns]=useState("");
     let handleEvent = async()=>{
-        await axios.post("https://password-reset-flow.herokuapp.com/users/register",{
+        setRes("");
+        if(user && validator.isEmail(email) && pwd){
+            await axios.post("https://password-reset-flow.herokuapp.com/users/register",{
             firstname:user,
             email:email,
             token:"",
@@ -27,6 +30,10 @@ export default function Register(){
         }).catch((error)=>{
             console.log(error);
         })
+        }
+        else{
+            setRes("Enter valid email and Fields can not be empty")
+        }
     }
     return <>
         <div className="login-wrapper">
