@@ -204,7 +204,7 @@ router.post('/reset-password',async(req,res)=>{
         </div>`
       })
       res.status(200).json({
-        message:"Password Reset link sent"
+        message:"Password Reset link sent to your mail"
       })
     }
     else{
@@ -271,4 +271,15 @@ router.post('/logout',async(req,res)=>{
   }
 })
 
+router.post('/authenticate',async(req,res)=>{
+    const mail = await authenticate(req.body.token);
+    if(mail)
+      res.json({
+        auth:true
+      })
+    else
+      res.json({
+        auth:false
+      })
+})
 module.exports = router;
