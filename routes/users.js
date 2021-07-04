@@ -19,7 +19,7 @@ router.post("/register",async(req,res)=>{
     const db = client.db("urlshortner");
     let user = await db.collection("users").findOne({email:req.body.email});
     if(user){
-      res.status(400).json({//if user exist
+      res.json({//if user exist
         message:"User already exists"
       })
     }
