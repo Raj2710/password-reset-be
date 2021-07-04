@@ -1,13 +1,37 @@
 import "../../styles/login.css"
 import {Link} from "react-router-dom";
 import { useState} from "react";
-export default function Login(){
+import axios from "axios";
+export default function Login(props){
     let [email,setEmail]=useState("");
     let [pwd,setPwd]=useState("");
     let [show,setShow]=useState(true);
     let [res,setRes]=useState("");
-    let handleEvent = ()=>{
-        
+    let [ins,setIns]=useState("");
+    let handleEvent = async()=>{
+        setRes("");
+        await axios.post("https://password-reset-flow.herokuapp.com/users/login",{
+            email:email,
+            password:pwd
+        })
+        .then(async(response)=>{
+            await setRes(response.data.message);
+            await setIns(response.data.instruction);
+            setTimeout(() => {
+                let url ="/dashboard";
+                if(response.data.token){
+                    props.history.push({ 
+                        pathname: url,
+                        state: {
+                            email:email,
+                            token:response.data.token
+                        }
+                       });
+                }
+              }, 1000);
+        }).catch((error)=>{
+            console.log(error);
+        })
     }
     return <>
         <div className="login-wrapper">
@@ -23,7 +47,7 @@ export default function Login(){
                 <input type={show?"password":"text"} onChange={(e)=>setPwd(e.target.value)}></input><br/>
                 <Link to="/user/forgot-password" className="link">Forgot your password?</Link><br/>
                 <button className="login" onClick={handleEvent}>Login</button>
-                {res?<div style={{}}>{res}</div>:<div></div>}
+                <div style={{color:"green"}}>{res} {ins}</div>
             </div>
         </div>
     </>

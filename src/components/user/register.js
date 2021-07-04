@@ -1,14 +1,32 @@
 import "../../styles/login.css"
 import {Link} from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState} from "react";
+import axios from "axios";
 export default function Register(){
     let [user,setUser]=useState("");
     let [email,setEmail]=useState("");
     let [pwd,setPwd]=useState("");
     let [show,setShow]=useState(true);
     let [res,setRes]=useState("");
-    let handleEvent = ()=>{
-        
+    let [ins,setIns]=useState("");
+    let handleEvent = async()=>{
+        await axios.post("https://password-reset-flow.herokuapp.com/users/register",{
+            firstname:user,
+            email:email,
+            token:"",
+            password:pwd,
+            role:"user",
+            status:"Not Active"
+        })
+        .then(async(response)=>{
+            await setRes(response.data.message);
+            await setIns(response.data.instruction);
+            setTimeout(() => {
+                window.location.reload();
+              }, 5000);
+        }).catch((error)=>{
+            console.log(error);
+        })
     }
     return <>
         <div className="login-wrapper">
@@ -24,9 +42,9 @@ export default function Register(){
                     <button className="showhide" onClick={()=>setShow(!show)}><i class="fas fa-eye"></i> Show</button>
                 </div><br/>
                 <input type={show?"password":"text"} onChange={(e)=>setPwd(e.target.value)}></input><br/>
-                <button className="login" onClick={handleEvent}>Login</button>
-                {res?<div style={{}}>{res}</div>:<div></div>}
+                <button className="login" onClick={handleEvent}>Sign Up</button>
             </div>
+            <div style={{color:"green"}}>{res} {ins}</div>
         </div>
     </>
 }

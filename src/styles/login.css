@@ -1,7 +1,7 @@
 .form-wrapper{
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: inherit;
     padding: 10px;
 }
 .login-wrapper{
@@ -13,19 +13,20 @@
     align-content: center;
     margin-top: 100px;
     padding: 10px;
+    width:auto;
 }
 label{
     text-align: left;
     color: #6c6d71;
     font-size: large;
-    width: 70%;
+    width: 100%;
 }
 .pass-wrapper{
     display: flex;
 }
 .showhide{
     color: #2a5bd7;
-    width: 30%;
+    width: 100%;
     background-color: white;
     text-align: right;
     border: none;
