@@ -5,7 +5,7 @@ export default function Forgot(){
     let [email,setEmail]=useState("");
     let [res,setRes]=useState("");
     let handleEvent =async()=>{
-        await axios.post("https://password-reset-flow.herokuapp.com/users/reset-password",{
+        await axios.post("https://urlshortnerbe.herokuapp.com/users/reset-password",{
             email:email
         })
         .then((response)=>{

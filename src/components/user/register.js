@@ -13,7 +13,7 @@ export default function Register(){
     let handleEvent = async()=>{
         setRes("");
         if(user && validator.isEmail(email) && pwd){
-            await axios.post("https://password-reset-flow.herokuapp.com/users/register",{
+            await axios.post("https://urlshortnerbe.herokuapp.com/users/register",{
             firstname:user,
             email:email,
             token:"",

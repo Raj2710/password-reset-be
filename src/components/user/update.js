@@ -9,7 +9,7 @@ export default function Update(props){
         if(pwd===Cpwd)
         {
             setRes("");
-            await axios.post("https://password-reset-flow.herokuapp.com/users/update-password",{
+            await axios.post("https://urlshortnerbe.herokuapp.com/users/update-password",{
                 token:props.match.params.token,
                 password:pwd
             })

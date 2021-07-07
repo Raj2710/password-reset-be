@@ -6,7 +6,7 @@ export default function Dashboard(props){
         async function Auth(){
             if(props.location.state){
                 setEmail(props.location.state.email);
-                await axios.post("https://password-reset-flow.herokuapp.com/users/authenticate",{
+                await axios.post("https://urlshortnerbe.herokuapp.com/users/authenticate",{
                 token:props.location.state.token
             })
             .then(async(response)=>{

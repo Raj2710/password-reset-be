@@ -11,7 +11,7 @@ export default function Login(props){
     let handleEvent = async()=>{
         setRes("");
         if(email && pwd){
-            await axios.post("https://password-reset-flow.herokuapp.com/users/login",{
+            await axios.post("https://urlshortnerbe.herokuapp.com/users/login",{
             email:email,
             password:pwd
         })
