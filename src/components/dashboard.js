@@ -24,7 +24,7 @@ export default function Dashboard(props){
         Auth();
     },[props.location.state,props.history])
     let handleEvent = async()=>{
-        await axios.post("https://password-reset-flow.herokuapp.com/users/logout",{
+        await axios.post("https://urlshortnerbe.herokuapp.com/users/logout",{
             email:props.location.state.email
         }).then(async()=>{
             props.history.push("/home")
